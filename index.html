@@ -25,6 +25,7 @@
             const [searchTerm, setSearchTerm] = useState('');
             const [statusFilter, setStatusFilter] = useState('all');
             const [departmentFilter, setDepartmentFilter] = useState('all');
+            const [approverFilter, setApproverFilter] = useState('all');
             const [loading, setLoading] = useState(true);
             const [error, setError] = useState(null);
             const [historyLoading, setHistoryLoading] = useState(false);
@@ -126,7 +127,10 @@
                 const department = getDepartment(po);
                 const matchesDepartment = departmentFilter === 'all' || department === departmentFilter;
                 
-                return matchesSearch && matchesStatus && matchesDepartment;
+                const nextApprover = getNextApprover(po);
+                const matchesApprover = approverFilter === 'all' || nextApprover === approverFilter;
+                
+                return matchesSearch && matchesStatus && matchesDepartment && matchesApprover;
             });
 
             const getStatusColor = (status) => {
@@ -161,6 +165,7 @@
 
             const uniqueStatuses = [...new Set(pos.map(po => getPOStatus(po)))].filter(s => s);
             const uniqueDepartments = [...new Set(pos.map(po => getDepartment(po)))].filter(d => d && d !== 'N/A').sort();
+            const uniqueApprovers = [...new Set(pos.map(po => getNextApprover(po)))].filter(a => a).sort();
 
             if (loading) {
                 return (
@@ -359,6 +364,18 @@
                                         <option value="all">All Departments</option>
                                         {uniqueDepartments.map(dept => (
                                             <option key={dept} value={dept}>{dept}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <select
+                                        value={approverFilter}
+                                        onChange={(e) => setApproverFilter(e.target.value)}
+                                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    >
+                                        <option value="all">All Approvers</option>
+                                        {uniqueApprovers.map(approver => (
+                                            <option key={approver} value={approver}>{approver}</option>
                                         ))}
                                     </select>
                                 </div>
