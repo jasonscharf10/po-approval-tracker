@@ -92,12 +92,17 @@ A secure, enterprise-grade purchase order approval tracking system with Google O
 
 ### Step 4: Update Google OAuth Authorized URLs
 
-1. Go back to [Google Cloud Console](https://console.cloud.google.com/)
-2. Navigate to **APIs & Services** > **Credentials**
-3. Edit your OAuth client ID
-4. Add your Vercel deployment URL to:
-   - Authorized JavaScript origins: `https://your-app.vercel.app`
-   - Authorized redirect URIs: `https://your-app.vercel.app`
+📖 **See [GOOGLE_OAUTH_SETUP.md](GOOGLE_OAUTH_SETUP.md) for detailed instructions**
+
+Quick steps:
+1. Go to [Google Cloud Console Credentials](https://console.cloud.google.com/apis/credentials)
+2. Edit your OAuth 2.0 Client ID
+3. Add your Vercel URL to **Authorized JavaScript origins**:
+   - `https://your-app.vercel.app`
+4. Click **Save**
+5. Wait 5-10 minutes for changes to propagate
+
+**Common error**: "Error 400: origin_mismatch" means you haven't added your Vercel URL yet or it hasn't propagated.
 
 ### Step 5: Test Authentication
 
@@ -171,11 +176,24 @@ This is the most common error and means your Google Apps Script is not properly 
 - Verify the user's email domain matches your `AUTHORIZED_DOMAINS` setting
 - Check that the domain is properly configured in your environment variables
 
+### "Error 400: origin_mismatch" when signing in
+
+This means your Vercel URL is not added to Google OAuth authorized origins.
+
+**Solution**: Follow the complete guide in [GOOGLE_OAUTH_SETUP.md](GOOGLE_OAUTH_SETUP.md)
+
+Quick fix:
+- Go to [Google Cloud Console Credentials](https://console.cloud.google.com/apis/credentials)
+- Edit your OAuth Client ID
+- Add `https://your-app.vercel.app` to **Authorized JavaScript origins**
+- Save and wait 5-10 minutes
+
 ### OAuth not working
 
 - Ensure your Google Client ID is correctly set in Vercel environment variables
 - Verify that your deployment URL is added to Google OAuth authorized URLs
 - Check browser console for detailed error messages
+- Clear browser cache and try in incognito mode
 
 ### Build fails on Vercel
 
