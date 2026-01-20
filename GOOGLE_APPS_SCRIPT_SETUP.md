@@ -4,7 +4,23 @@
 
 The "Failed to fetch" error occurs because Google Apps Script needs to be properly deployed to allow cross-origin requests from your Vercel domain.
 
-### Step 1: Redeploy Your Google Apps Script
+## Step 0: Copy the Enhanced Backend Code
+
+1. Open the file `backend-apps-script.gs` in this repository
+2. Copy ALL the code
+3. Go to https://script.google.com/
+4. Open your existing script project
+5. **Replace all existing code** with the enhanced code from `backend-apps-script.gs`
+6. Click **Save** (Ctrl+S or Cmd+S)
+
+**What's New in the Enhanced Code:**
+- ✅ Better error logging for debugging
+- ✅ Test endpoint to verify backend is working (`?action=test`)
+- ✅ Enhanced error messages with stack traces
+- ✅ Request/response logging for troubleshooting
+- ✅ Comprehensive test functions
+
+### Step 1: Deploy Your Google Apps Script
 
 **Important**: You must deploy your script as a **Web App** with the correct settings.
 
@@ -29,13 +45,38 @@ BACKEND_URL=https://script.google.com/macros/s/AKfycby.../exec
 
 ### Step 3: Test the Backend
 
-Test your backend directly by visiting this URL in your browser:
+**First, test that the backend is accessible:**
+
+Visit this URL in your browser (replace YOUR_SCRIPT_ID with your actual script ID):
+
+```
+https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=test
+```
+
+**Expected result:**
+```json
+{
+  "success": true,
+  "message": "Backend is working!",
+  "timestamp": "2026-01-20T...",
+  "spreadsheetId": "1P5HhtUKhfEdHxEr2QyshVEXKYzWrbedkeFKkiY-xVS4"
+}
+```
+
+If you see this response, **CORS is working!** Your backend is accessible.
+
+**Next, test your PO data:**
 
 ```
 https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=getPOs
 ```
 
-You should see a JSON response with your PO data. If you see an error, check the Apps Script logs.
+You should see a JSON response with your PO data.
+
+**If you see an error:**
+- Check the Apps Script execution logs: **Extensions** > **Apps Script** > **Executions** tab
+- Verify your spreadsheet ID is correct
+- Make sure the sheet names match ("POs List", "ApprovalHistoryList")
 
 ## Why "Who has access: Anyone" is Safe
 
@@ -137,10 +178,26 @@ function getPOsData() {
 
 ## Testing Your Deployment
 
-1. **Test in browser**: Visit `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=getPOs`
-2. **Expected result**: JSON response with PO data
+### Test in Apps Script Editor (Before Deploying)
+
+1. In the Apps Script editor, click the function dropdown (next to "Debug")
+2. Select `testBackend`
+3. Click **Run**
+4. Click **View** > **Logs** to see the results
+5. You should see successful test results with data counts
+
+**This tests:**
+- ✅ Your spreadsheet connection is working
+- ✅ Your sheet names are correct
+- ✅ Data is being read properly
+
+### Test the Deployed Web App
+
+1. **Test in browser**: Visit `https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec?action=test`
+2. **Expected result**: `{"success": true, "message": "Backend is working!", ...}`
 3. **If you see "Authorization required"**: You didn't set "Who has access" to "Anyone"
 4. **If you see HTML login page**: Your deployment settings are incorrect
+5. **If successful**, test the actual data: `?action=getPOs`
 
 ## Deployment Checklist
 
