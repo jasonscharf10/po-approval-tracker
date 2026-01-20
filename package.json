@@ -1,0 +1,16 @@
+{
+  "name": "po-approval-tracker",
+  "version": "1.0.0",
+  "description": "Secure PO Approval Tracking System",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "echo 'No dev server needed - open index.html directly for local development'"
+  },
+  "keywords": [
+    "purchase-orders",
+    "approval-tracking",
+    "netsuite"
+  ],
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,25 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Build output
+public/
+dist/
+
+# Node modules
+node_modules/
+
+# Vercel
+.vercel/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
