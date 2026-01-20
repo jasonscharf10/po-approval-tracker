@@ -146,7 +146,25 @@ The application includes the following security headers:
 - Users can sign out at any time via the profile menu
 - Sessions include user email, name, and profile picture
 
+## Google Apps Script Backend Setup
+
+**IMPORTANT**: If you're getting "Failed to fetch" or CORS errors, you need to properly configure your Google Apps Script backend.
+
+📖 **See [GOOGLE_APPS_SCRIPT_SETUP.md](GOOGLE_APPS_SCRIPT_SETUP.md) for detailed setup instructions**
+
+Quick checklist:
+- [ ] Apps Script deployed as Web App
+- [ ] "Who has access" set to "Anyone"
+- [ ] "Execute as" set to "Me"
+- [ ] `BACKEND_URL` environment variable updated with deployment URL
+
 ## Troubleshooting
+
+### "Failed to fetch" or "Connection Error - CORS Configuration Required"
+
+This is the most common error and means your Google Apps Script is not properly deployed.
+
+**Solution**: Follow the complete guide in [GOOGLE_APPS_SCRIPT_SETUP.md](GOOGLE_APPS_SCRIPT_SETUP.md)
 
 ### "Access denied" error
 
